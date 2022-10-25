@@ -1,0 +1,59 @@
+El uso del método read con un array de caracteres sigue siendo un poco
+enrevesado, además hay que tener en cuenta que el teclado es un dispositivo
+con buffer de lectura. Por ello para leer cadenas de caracteres se suele
+utilizar la clase BufferedReader. La razón es que esta clase posee el método
+readLine que permite leer una línea de texto en forma de String, que es más
+fácil de manipular. Esta clase usa un constructor que acepta objetos Reader (y
+por lo tanto InputStreamReader, ya que desciende de ésta) y, opcionalmente, 
+el número de caracteres a leer.
+Hay que tener en cuenta que el método readLine (como todos los métodos
+de lectura) puede provocar excepciones de tipo IOException por lo que, como
+ocurría con las otras lecturas, habrá que capturar dicha lectura.
+Se trata de las clases que manipulan archivos. Son herederas de
+Input/OutputStream, por lo que manejan corrientes de datos en forma de
+bytes binarios. La diferencia es que se construyen a partir de objetos de tipo
+File.
+La construcción de objetos FileOutputStream se hace igual, pero además se
+puede indicar un parámetro más de tipo booleano que con valor true permite
+añadir más datos al archivo (normalmente al escribir se borra el contenido del
+archivo, valor false).
+Estos constructores intentan abrir el archivo, generando una excepción del
+tipo FileNotFoundException si el archivo no existiera u ocurriera un error en
+la apertura. Los métodos de lectura y escritura de estas clases son los
+heredados de las clases InputStream y OutputStream; fundamentalmente los
+métodos read y write son los que permiten leer y escribir. El método read
+devuelve -1 en caso de llegar al final del archivo.
+Este método lee el archivo de forma absolutamente binaria los archivos y
+sólo es válido cuando deseamos leer toda la información del archivo.
+Como ocurría con la entrada estándar, se puede convertir un objeto
+FileInputStream o FileOutputStream a forma de Reader o Writer mediante
+las clases InputStreamReader y OutputStreamWriter. Y esto es más lógico
+cuando manejamos archivos de texto.
+Existen además dos clases que manejan caracteres en lugar de bytes (lo
+que hace más cómodo su manejo), son FileWriter y FileReader.
+La construcción de objetos del tipo FileReader se hace con un parámetro
+que puede ser un objeto File o un String que representarán a un determinado
+archivo.
+La construcción de objetos FileWriter se hace igual sólo que se puede
+añadir un segundo parámetro booleano que, en caso de valer true, indica que
+se abre el archivo para añadir datos; en caso contrario se abriría para grabar
+desde cero (se borraría su contenido).
+Para escribir se utiliza write que es un método void que recibe como
+parámetro lo que se desea escribir en formato int, String o en forma de array
+de caracteres.
+Para leer se utiliza el método read que devuelve un int y que puede recibir un
+array de caracteres en el que se almacenarían los caracteres leídos. Ambos
+métodos pueden provocar excepciones de tipo IOException.
+No obstante sigue siendo un método todavía muy rudimentario. Por ello lo
+ideal es convertir el flujo de las clases File en clases de tipo BufferedReader y
+BufferedWriter vistas anteriormente . Su uso sería:
+Éste código muestra el archivo por pantalla. readLine devuelve null cuando se
+llega al final del archivo. Sin embargo es conveniente adelantar la primera
+lectura antes del bucle para conseguir que no salga por pantalla el propio null
+(a esto se le llama bucle de lectura adelantada).
+La escritura se realiza con el método write que permite grabar caracteres,
+Strings y arrays de caracteres. BufferedWriter además permite utilizar el
+método newLine que escriba un salto de línea en el archivo; lo que arregla el
+problema de la compatibilidad entre plataformas por que los caracteres para
+el cambio de párrafo son distintos según cada sistema operativo (o incluso por
+diferentes circunstancias).
